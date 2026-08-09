@@ -25,6 +25,66 @@ Desktop tooling for viewing NETRA obstacle range, IMU motion, sensor health, and
 
 ![NETRA PySide6 3D debugger](docs/images/netra-debugger.png)
 
+The main window combines the live wearer model and indoor obstacle scene with the
+sensor dashboard. **Demo mode** is shown above, so the interface can be explored
+without connecting the physical device.
+
+## What the application does
+
+NETRA System Debugger reads the firmware's serial telemetry and turns it into a
+live, local visualization of the wearable device:
+
+1. **Receives sensor data** from the ESP32-C6 over USB serial at 115200 baud.
+2. **Measures forward clearance** using the HC-SR04 distance value and places the
+   detected obstacle in the 3D scene at the measured range.
+3. **Detects wearer movement** from MPU6050 acceleration changes. Gravity is
+   filtered from the motion estimate, which helps distinguish movement from a
+   stationary sensor and drives the digital twin's walking animation.
+4. **Tracks orientation locally** by calculating knee tilt from the IMU axes. The
+   movement stays inside the closed, local debugger loop; it is not GPS or cloud
+   location tracking.
+5. **Plots live telemetry** so acceleration, rotation, temperature, sensor health,
+   and changes over time can be inspected while testing the device.
+
+### Obstacle states
+
+<table>
+  <tr>
+    <td width="50%" align="center">
+      <img src="docs/images/netra-danger-alert.png" alt="NETRA danger alert at 38 centimetres"><br>
+      <strong>Critical obstacle</strong><br>
+      A valid distance below 60 cm changes the warning and 3D obstacle to red.
+    </td>
+    <td width="50%" align="center">
+      <img src="docs/images/netra-path-clear.png" alt="NETRA path clear scanning state"><br>
+      <strong>Path clear / scanning</strong><br>
+      With no valid range echo, the obstacle is hidden while IMU movement tracking continues.
+    </td>
+  </tr>
+</table>
+
+### Telemetry panel
+
+<p align="center">
+  <img src="docs/images/netra-telemetry-panel.png" alt="NETRA live telemetry panel" width="38%">
+</p>
+
+| Display | Meaning |
+|---|---|
+| Connection line | Active COM port, connection state, or simulated demo source |
+| Obstacle banner | Measured clearance and the current normal/danger state |
+| Wearer motion | Standing/walking classification and filtered acceleration activity |
+| Accelerometer | Live X, Y, and Z acceleration in `g`, plus a scrolling trace |
+| Gyroscope | Live X, Y, and Z angular velocity in degrees per second, plus a scrolling trace |
+| Knee tilt / temperature | Calculated wearable orientation and MPU6050 temperature |
+| **DEMO** | Toggles simulated telemetry for testing without hardware |
+| **RESET C6** | Requests a reset of the connected ESP32-C6 serial device |
+
+> [!NOTE]
+> The displayed distance, motion, and orientation information is intended for
+> prototype development and debugging. NETRA V1 is not a certified medical or
+> safety device.
+
 <p align="center">
   <img src="docs/images/netra-device-front.jpg" alt="NETRA device front view" width="48%">
   <img src="docs/images/netra-device-angle.jpg" alt="NETRA device angled view" width="48%">
