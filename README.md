@@ -47,7 +47,7 @@ Desktop tooling for viewing NETRA obstacle range, IMU motion, sensor health, and
 - NETRA firmware streaming its CSV protocol at 115200 baud
 - A free serial port such as `COM6`
 
-The matching firmware is maintained in [Netra Device Firmware V1](../Netra_Device_Firmware_V1).
+The matching device firmware, pin map, sensor wiring, and mechanical files are maintained in **[Netra Device Firmware V1](https://github.com/Hitheshkaranth/Netra_Device_Firmware_V1)**.
 
 ## Build from source
 
