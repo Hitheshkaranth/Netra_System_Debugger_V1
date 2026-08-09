@@ -1,0 +1,21 @@
+# Python caches and virtual environments
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Packaged application output
+build/
+dist/
+release/
+*.spec
+
+# Runtime output
+netra-log.csv
+*.log
+
+# IDE and operating-system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
